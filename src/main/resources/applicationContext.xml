@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 这是一个spring上下文配置文件 -->
+<beans 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:tx="http://www.springframework.org/schema/tx" 
+	xmlns:aop="http://www.springframework.org/schema/aop" 
+	xmlns:context="http://www.springframework.org/schema/context" 
+	xmlns="http://www.springframework.org/schema/beans" 
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/tx
+	http://www.springframework.org/schema/tx/spring-tx.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<!-- 
+		配置扫描的范围，在这个范围下实例化且注册被@Component，@Controller，@Service，@Repository等注解标记的组件。
+		注意：配置了<context:component-scan/>可以将<context:annotation-config/>省略
+	-->
+	<context:component-scan base-package="tk.mybatis.*.service.impl"/>
+	
+	<!-- 配置数据源 -->
+	<bean id="dataSource" class="org.apache.ibatis.datasource.pooled.PooledDataSource">
+		<property name="driver" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://localhost:3306/mybatis"/>
+		<property name="username" value="root"/>
+		<property name="password" value= "123456"/>
+	</bean>
+	
+	<!-- 配置sqlSessionFactoryBean，在spring中这个bean是用来创建SqlSessionFactory的 -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="configLocation" value="classpath:mybatis-config.xml"/>
+		<property name="dataSource" ref="dataSource"/>
+		<property name="mapperLocations">
+			<array>
+				<!-- Spring扫描所有扫描XML映射文件的路径-->
+				<value>classpath:tk/mybatis/**/mapper/*.xml</value>
+			</array>
+		</property>
+		<property name="typeAliasesPackage" value="tk.mybatis.web.model"/>
+	</bean>
+	
+	<!-- 
+		通过MapperScannerConfigurer类自动扫描所有的Mapper接口，使用时可以直接使用@Autowired注入接口。
+	-->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="tk.mybatis.**.mapper"/>
+	</bean>
+	
+	
+</beans>

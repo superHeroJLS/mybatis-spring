@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 这是一个spring-mvc配置文件 -->
+<beans 
+	xmlns="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:context="http://www.springframework.org/schema/context" 
+	xmlns:mvc="http://www.springframework.org/schema/mvc" 
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context.xsd
+	http://www.springframework.org/schema/mvc
+	http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+	
+	<!-- 
+		<mvc:annotation-driven/>是一种简写形式，完全可以手动配置替代这种简写形式，简写形式可让初学都快速应用默认配置方案，
+		这个注解会自动注册几个重要的bean,是springMVC为@Controllers分发请求所必须的，即解决了@Controller注解使用的前提配置，即是用来处理MVC中对controller请求的：
+		最重要的就是RequestMappingHandlerMapping和RequestMappingHandlerAdapter。
+  		第一个是HandlerMapping的实现类，它会处理@RequestMapping注解，并将其注册到请求映射表中。
+  		第二个是HandlerAdapter的实现类，它是处理请求的适配器，说白了，就是确定调用哪个类的哪个方法，并且确定方法的构造方法参数，返回值。
+
+	-->
+	<mvc:annotation-driven/>
+	
+	<!-- 配置了一个简单的静态资源映射规则 -->
+	<mvc:resources location="static/" mapping="/static/**"/>
+	
+	<!-- 扫描controller包下的类，实例化且注册被@Component，@Controller，@Service，@Repository等注解标记的组件 -->
+	<context:component-scan base-package="tk.mybatis.web.controller"/>
+	
+	<!-- InternalResourceViewResolver 将视图名映射为URL文件 -->
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
+		<property name="prefix" value="/WEB-INF/jsp/"/>
+		<property name="suffix" value=".jsp"/>
+	</bean>
+	
+</beans>
