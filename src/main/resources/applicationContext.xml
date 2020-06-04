@@ -39,7 +39,9 @@
 				<value>classpath:tk/mybatis/**/mapper/*.xml</value>
 			</array>
 		</property>
+		<!-- 配置model alias，在Mapper.xml文件中直接使用model类名 -->
 		<property name="typeAliasesPackage" value="tk.mybatis.web.model"/>
+		<!-- 还有许多其他配置，可以直接到SqlSessionFactoryBean中查看 -->
 	</bean>
 	
 	<!-- 
