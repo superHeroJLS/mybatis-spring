@@ -18,7 +18,6 @@ public class DictController {
 	@Autowired
 	private DictService dictService;
 	
-	
 	/**
 	 * 显示字典数据列表
 	 * @param dict
